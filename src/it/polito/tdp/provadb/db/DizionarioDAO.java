@@ -13,8 +13,10 @@ public class DizionarioDAO {
 	public boolean esisteParola(String nome) {
 
 		try {
+			//Ottengo oggetto connesione tramite classe DBConnect
 			Connection conn = DBConnect.getConnection();
 			
+			//Scrivo Query
 			String sql = "SELECT id, nome FROM parola WHERE nome = ?";
 			
 			//Veicolo di trasporto quando si usano variabili
