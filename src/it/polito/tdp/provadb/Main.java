@@ -7,57 +7,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import it.polito.tdp.provadb.db.DizionarioDAO;
+
 public class Main {
 
 	
 	public void run() {
 
-		//Stringa per accedere alla connesione (Stringa corretta per il fuso orario)
-		String jdbUrl = "jdbc:mysql://localhost/dizionario?useTimezone=true&serverTimezone=UTC&user=root&password=alessio";
+		String parola= "gatto";
 		
-		try {
-			Connection conn = DriverManager.getConnection(jdbUrl);
-			
-			/*E' il veicolo di trasporto
-			Statement st = conn.createStatement();
-			*/
-			
-			//Immaginiamo che mi sia stata passata dall'utente con txtParola.getText()
-			String parola = "gatto";
-			
-			/*Scrivo Query [ Seleziono dalla tabella la parola="gatto" ]
-			String sql = "SELECT * FROM parola " + 
-					     "WHERE nome = '"+parola+"'" ; //ATTENZIONE alla sintassi
-			*/
-			
-			String sql = "SELECT * FROM parola " + 
-				         "WHERE nome = ? " ;
-			
-			//Veicolo di trasportyo quando si usano variabili
-			PreparedStatement st = conn.prepareStatement(sql);
-			
-			//Setto la variabile "?" all'interno della Query
-			st.setString(1, parola);
-			
-			//Eseguo query
-			ResultSet rs = st.executeQuery();
-			
-			while ( rs.next() ) {
-				
-				int id = rs.getInt("id");
-				String nome = rs.getString("nome");
-				
-				System.out.println(id + " " + nome);
-			}
-			
-			//Chiudo la connessione
-			conn.close();
-			
-		} catch (SQLException e) {
-			System.out.println("Connesione fallita!");
-			e.printStackTrace();
-		}
+		DizionarioDAO d = new DizionarioDAO();
 		
+		if (d.esisteParola(parola)) System.out.format("La parola %s esiste \n",parola);
+		else System.out.format("La parola %s NON esiste", parola);
 		
 	}
 	
