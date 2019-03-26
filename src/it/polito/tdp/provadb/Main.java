@@ -2,6 +2,7 @@ package it.polito.tdp.provadb;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,18 +18,29 @@ public class Main {
 		try {
 			Connection conn = DriverManager.getConnection(jdbUrl);
 			
-			//E' il veicolo di trasporto
+			/*E' il veicolo di trasporto
 			Statement st = conn.createStatement();
+			*/
 			
 			//Immaginiamo che mi sia stata passata dall'utente con txtParola.getText()
 			String parola = "gatto";
 			
-			//Scrivo Query [ Seleziono dalla tabella la parola="gatto" ]
+			/*Scrivo Query [ Seleziono dalla tabella la parola="gatto" ]
 			String sql = "SELECT * FROM parola " + 
 					     "WHERE nome = '"+parola+"'" ; //ATTENZIONE alla sintassi
+			*/
+			
+			String sql = "SELECT * FROM parola " + 
+				         "WHERE nome = ? " ;
+			
+			//Veicolo di trasportyo quando si usano variabili
+			PreparedStatement st = conn.prepareStatement(sql);
+			
+			//Setto la variabile "?" all'interno della Query
+			st.setString(1, parola);
 			
 			//Eseguo query
-			ResultSet rs = st.executeQuery(sql);
+			ResultSet rs = st.executeQuery();
 			
 			while ( rs.next() ) {
 				
