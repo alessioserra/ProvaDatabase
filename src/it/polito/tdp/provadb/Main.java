@@ -11,7 +11,7 @@ public class Main {
 	
 	public void run() {
 
-		//Stringa per accedere alla connesione (Stringa corretto per il fuso orario)
+		//Stringa per accedere alla connesione (Stringa corretta per il fuso orario)
 		String jdbUrl = "jdbc:mysql://localhost/dizionario?useTimezone=true&serverTimezone=UTC&user=root&password=alessio";
 		
 		try {
@@ -20,9 +20,12 @@ public class Main {
 			//E' il veicolo di trasporto
 			Statement st = conn.createStatement();
 			
-			//Scrivo Query
+			//Immaginiamo che mi sia stata passata dall'utente con txtParola.getText()
+			String parola = "gatto";
+			
+			//Scrivo Query [ Seleziono dalla tabella la parola="gatto" ]
 			String sql = "SELECT * FROM parola " + 
-					     "WHERE nome LIKE 'Z%' ";
+					     "WHERE nome = '"+parola+"'" ; //ATTENZIONE alla sintassi
 			
 			//Eseguo query
 			ResultSet rs = st.executeQuery(sql);
@@ -35,6 +38,7 @@ public class Main {
 				System.out.println(id + " " + nome);
 			}
 			
+			//Chiudo la connessione
 			conn.close();
 			
 		} catch (SQLException e) {
